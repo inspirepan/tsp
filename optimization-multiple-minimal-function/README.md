@@ -1,3 +1,1 @@
-多极小值函数最小值求取
-——  模拟退火
-——  遗传算法
+Simulated Annealing
