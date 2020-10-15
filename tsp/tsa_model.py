@@ -14,7 +14,7 @@ class TsaModel:
     visit_order = []
     ax = None
 
-    def __init__(self, ax, seed=None):
+    def __init__(self, ax, seed=53):
         """
         初始化，生成城市位置，随机生成初始访问顺序
         :param ax: Matplotlib Artist对象，用于画图
@@ -23,29 +23,25 @@ class TsaModel:
         self.__initialize_city_locations(seed)
         self.ax = ax
         self.set_random_visit_order()
-        # self.draw_cities()
-        # self.draw_path()
 
     def __initialize_city_locations(self, seed):
         """
         在范围内生成城市的坐标信息
         """
-        if INITIALIZE_METHOD == "random" or INITIALIZE_METHOD == "seed":
+        if INITIALIZE_METHOD == "seed":
             # 根据种子，随机生成N个城市地址
             temp = np.empty((self.N, 2))
             for i in range(self.N):
-                if seed is not None:
-                    np.random.seed(i + seed)
+                np.random.seed(i + seed)
                 temp[i][0] = np.random.uniform(*LOCATION_RANGE[0])
-                if seed is not None:
-                    np.random.seed(i + 2 * seed)
+                np.random.seed(i + 2 * seed)
                 temp[i][1] = np.random.uniform(*LOCATION_RANGE[1])
             self.city_locations = temp
             np.random.seed(None)  # 取消种子
         elif INITIALIZE_METHOD == "input":
             self.city_locations = INPUT_LOCATIONS
 
-    def draw_cities(self, ax=None,color='skyblue'):
+    def draw_cities(self, ax=None, color='skyblue'):
         """
         画城市散点
         """

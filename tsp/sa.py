@@ -18,9 +18,7 @@ class SimulatedAnnealing:
     best_result = None
 
     def __init__(self):
-        if INITIALIZE_METHOD == "random":
-            self.seed = np.random.randint(1, 100)
-        elif INITIALIZE_METHOD == "seed":
+        if INITIALIZE_METHOD == "seed":
             self.seed = SEED
 
     @staticmethod
@@ -52,7 +50,9 @@ class SimulatedAnnealing:
         使用模拟退火算法求解TSP问题
         :param ax1: 画出地图与当前路径
         :param ax2: 画出当前轮次路径迭代变化
-        :param ax3: 画出地图和目前多次实验中的最佳结果
+        :param ax3: 画出目前的最佳结果
+        :param ax4: 画出当前轮次温度迭代变化
+        :param ax5: 画出上一轮的结果
         :return:
         """
         ax1.cla()
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     # 打印参数
     print("参数".center(length1, "="))
     print("初始温度接受系数".ljust(length3, " ") + "= {:.2f}".format(ACCEPTANCE_PROB))
-    print("确定初始温度时生成的随机状态总数".ljust(length3, " ") + "= {:.2f}".format(RANDOM_TRIAL_COUNT))
+    print("确定初始温度时生成的随机状态总数".ljust(length3, " ") + "= {:.0f}".format(RANDOM_TRIAL_COUNT))
     print("退火温度下降速率".ljust(length3, " ") + "= {:.2f}".format(TEMPERATURE_DESCEND_RATE))
     print("抽样定长步数".ljust(length3, " ") + "= {}".format(STABLE_STEPS))
     print("目标值变化下限阈值".ljust(length3, " ") + "= {:.4f}".format(DELTA_F_LOWER_THRESHOLD))
