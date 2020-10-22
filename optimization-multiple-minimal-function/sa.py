@@ -1,14 +1,11 @@
 import time
 
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import rcParams
 from scipy.stats import cauchy
 
-from arguments import ACCEPTANCE_PROB, DELTA_F_LOWER_THRESHOLD, EPOCHS, ETA, GENERATING_METHOD, \
+from arguments import ACCEPTANCE_PROB, DELTA_F_LOWER_THRESHOLD, ETA, GENERATING_METHOD, \
     LOW_DELTA_F_STEPS_UPPER_THRESHOLD, RANDOM_TRIAL_COUNT, RANGE, SCALE, STABLE_STEPS, TEMPERATURE_DESCEND_RATE
-from function_to_solve import f, get_minimum_val, get_overview
-from plot_utils import dot, plot_history, rgba, scatter
+from function_to_solve import f
 
 
 class SimulatedAnnealing:
@@ -116,9 +113,12 @@ class SimulatedAnnealing:
         print("({:.4f}, {:.4f})   初始温度 = {:.4g}  迭代次数 = {}  耗时 = {:.2f}s".format(x_best, fx_best, init_temperature,
                                                                                  steps,
                                                                                  end_time - start_time))
-        return x_best, fx_best, x_history, fx_history, t_history, steps, init_temperature
+        return x_best, fx_best, x_history, fx_history, t_history
 
-    def get_statistic_info(self, fx_min):
+    def print_statistic_info(self, fx_min):
+        """
+        输出统计信息
+        """
         length1 = 70
         length2 = 10
         print()
@@ -139,8 +139,12 @@ class SimulatedAnnealing:
         print("方差".ljust(length2, " ") + "= {:.2e}".format(np.var(self.stats_time)))
 
     @staticmethod
-    def get_arguments():
-        # 打印参数
+    def print_arguments():
+        """
+        打印当前参数
+        """
+        length1 = 70
+        length3 = 40
         print("参数".center(length1, "="))
         print("初始温度接受系数".ljust(length3, " ") + "= {:.2f}".format(ACCEPTANCE_PROB))
         print("确定初始温度时生成的随机状态总数".ljust(length3, " ") +
@@ -156,43 +160,3 @@ class SimulatedAnnealing:
         print("抽样定长步数".ljust(length3, " ") + "= {}".format(STABLE_STEPS))
         print("目标值变化下限阈值".ljust(length3, " ") + "= {:.4f}".format(DELTA_F_LOWER_THRESHOLD))
         print("连续目标值变化小于下限步数上限阈值".ljust(length3, " ") + "= {}".format(LOW_DELTA_F_STEPS_UPPER_THRESHOLD))
-
-
-if __name__ == '__main__':
-    # 画图和打印信息设置
-    rcParams['font.family'] = 'sans-serif'
-    rcParams['font.sans-serif'] = ['Arial']
-    fig = plt.figure(dpi=600, figsize=(6, 9))
-    ax1 = fig.add_subplot(311)
-    ax2 = fig.add_subplot(312)
-    ax3 = fig.add_subplot(313)
-    length1 = 70
-    length3 = 40
-
-    sa = SimulatedAnnealing()
-    sa.get_arguments()
-
-    # 输出待求解函数相关信息
-    ax1.title.set_text("function image")
-    get_overview(ax1)
-    x_min, fx_min = get_minimum_val(ax1)
-    print("最小点".ljust(length3, " ") + "= ({:.4f}, {:.4f})".format(x_min, fx_min))
-
-    # 进行多次实验
-    print("处理中".center(length1, "="))
-    for i in range(EPOCHS):
-        print(str(i + 1).ljust(2, " "), end="   ")
-        x_best, fx_best, x_history, fx_history, t_history, steps, init_temperature = sa.solve()
-        # 对第一次运行的结果画图
-        if i == 0:
-            dot(ax1, x_best, fx_best, annotate=True, color=rgba(255, 21, 20, 0.8), zorder=5, label='Final')
-            scatter(ax1, x_history, fx_history)
-            plot_history(ax2, fx_history)
-            ax2.title.set_text("f(x) history")
-            plot_history(ax3, x_history)
-            ax3.title.set_text("x history")
-
-    # 输出结果
-    sa.get_statistic_info(fx_min)
-    ax1.legend()
-    plt.show()
