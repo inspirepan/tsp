@@ -15,54 +15,9 @@ class SimulatedAnnealing:
     stats_x_best = []
     stats_time = []
 
-    @staticmethod
-    def generate_init_temperature():
-        """
-        :return 初始温度
-        """
-        x = np.random.uniform(*RANGE, size=RANDOM_TRIAL_COUNT)
-        best_result = np.min(f(x))
-        worst_result = np.max(f(x))
-        return (best_result - worst_result) / np.log(ACCEPTANCE_PROB)
-
-    @staticmethod
-    def generate_next(x):
-        """
-        生成新状态，使用GENERATING_METHOD设置用于状态产生的概率分布
-        :param x: 当前状态
-        """
-        if GENERATING_METHOD == "norm":
-            # 正态分布
-            r = x + ETA * np.random.normal(0, SCALE)
-            while r > RANGE[1] or r < RANGE[0]:
-                r = x + ETA * np.random.normal(0, SCALE)
-            return r
-        elif GENERATING_METHOD == "cauchy":
-            # 柯西分布
-            r = x + ETA * cauchy.rvs(loc=0, scale=SCALE, size=1)
-            while r > RANGE[1] or r < RANGE[0]:
-                r = x + ETA * cauchy.rvs(loc=0, scale=SCALE, size=1)
-            return r
-        else:
-            # 均匀分布
-            return np.random.uniform(*RANGE)
-
-    @staticmethod
-    def acceptance_probability(delta_val, temp):
-        """
-        接受概率函数，使用Metropolis准则
-        :param delta_val: 旧值减去新值
-        :param temp: 当前温度
-        :return: 接受概率，位于[0,1]内
-        """
-        if delta_val > 0:
-            return 1
-        else:
-            return np.exp(delta_val / temp)
-
     def solve(self):
         """
-        采用模拟退火算法求解最小值
+        采用模拟退火算法求解一次最小值
         """
         start_time = time.time()
         fx_history = []  # 记录目标函数值变化
@@ -113,11 +68,11 @@ class SimulatedAnnealing:
         print("({:.4f}, {:.4f})   初始温度 = {:.4g}  迭代次数 = {}  耗时 = {:.2f}s".format(x_best, fx_best, init_temperature,
                                                                                  steps,
                                                                                  end_time - start_time))
-        return x_best, fx_best, x_history, fx_history, t_history
+        return x_best, fx_best, x_history, fx_history
 
     def print_statistic_info(self, fx_min):
         """
-        输出统计信息
+        输出多次运行后的统计信息
         """
         length1 = 70
         length2 = 10
@@ -137,6 +92,51 @@ class SimulatedAnnealing:
         print("耗时".center(length1, '-'))
         print("平均值".ljust(length2, " ") + "= {:.2f}s".format(np.mean(self.stats_time)))
         print("方差".ljust(length2, " ") + "= {:.2e}".format(np.var(self.stats_time)))
+
+    @staticmethod
+    def generate_init_temperature():
+        """
+        :return 初始温度
+        """
+        x = np.random.uniform(*RANGE, size=RANDOM_TRIAL_COUNT)
+        best_result = np.min(f(x))
+        worst_result = np.max(f(x))
+        return (best_result - worst_result) / np.log(ACCEPTANCE_PROB)
+
+    @staticmethod
+    def generate_next(x):
+        """
+        生成新状态，使用GENERATING_METHOD设置用于状态产生的概率分布
+        :param x: 当前状态
+        """
+        if GENERATING_METHOD == "norm":
+            # 正态分布
+            r = x + ETA * np.random.normal(0, SCALE)
+            while r > RANGE[1] or r < RANGE[0]:
+                r = x + ETA * np.random.normal(0, SCALE)
+            return r
+        elif GENERATING_METHOD == "cauchy":
+            # 柯西分布
+            r = x + ETA * cauchy.rvs(loc=0, scale=SCALE, size=1)
+            while r > RANGE[1] or r < RANGE[0]:
+                r = x + ETA * cauchy.rvs(loc=0, scale=SCALE, size=1)
+            return r
+        else:
+            # 均匀分布
+            return np.random.uniform(*RANGE)
+
+    @staticmethod
+    def acceptance_probability(delta_val, temp):
+        """
+        接受概率函数，使用Metropolis准则
+        :param delta_val: 旧值减去新值
+        :param temp: 当前温度
+        :return: 接受概率，位于[0,1]内
+        """
+        if delta_val > 0:
+            return 1
+        else:
+            return np.exp(delta_val / temp)
 
     @staticmethod
     def print_arguments():

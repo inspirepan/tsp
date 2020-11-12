@@ -1,5 +1,5 @@
 # 参数
-EPOCHS = 20  # 实验轮次
+EPOCHS = 10  # 实验轮次
 RANGE = (-5, 5)  # 求解范围
 PRECISION = 0.0001  # 遍历求解最小解以及画图的精度
 
@@ -19,5 +19,8 @@ TEMPERATURE_DESCEND_RATE = 0.9  # 退火速率
 STABLE_STEPS = 100  # 定长抽样步数
 
 # ==========遗传算法============
-N = 10 # 初始种群大小
-
+N = 40  # 种群大小
+GENE_LENGTH = 8  # 编码成的基因长度
+PROB_CROSSOVER = 0.8  # 交叉概率
+PROB_MUTATION = 0.001  # 变异概率
+K = 200  # 每一次求解迭代次数

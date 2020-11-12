@@ -8,7 +8,6 @@ from matplotlib import rcParams
 def f(x):
     """定义用于求解的多极小值函数"""
     return (5 * np.sin(5 * x) + 4 * np.cos(6 * x)) * (np.exp(-np.absolute(x / 10 - 0.5)))
-    # return -10 - np.sin(1 / x) / ((x - 0.16) ** 2 + 0.1)
 
 
 def get_minimum_val(ax):
