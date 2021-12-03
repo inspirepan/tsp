@@ -1,5 +1,4 @@
-# IOA
-Intelligent Optimization Algorithm
+# Optimization Algorithm
 ## TSP
 Travelling Salesman Problem
 ## OMMF
