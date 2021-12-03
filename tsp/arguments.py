@@ -2,7 +2,7 @@ from city_map import square_grid, circle, united_states
 
 
 # 参数
-EPOCHS = 10  # 实验轮次
+EPOCHS = 20  # 实验轮次
 PAUSE = 0.001  # 每次迭代暂停时间，用于图像显示
 # ==========旅行商问题建模===========
 N = 20  # 城市数量
@@ -27,4 +27,3 @@ LOW_DELTA_F_STEPS_UPPER_THRESHOLD = 10  # 连续小变化步数上限阈值
 # ------------其他-----------
 TEMPERATURE_DESCEND_RATE = 0.9  # 退火速率
 STABLE_STEPS = 500  # 定长抽样步数
-# ===========遗传算法参数============

@@ -55,7 +55,7 @@ def united_states():
     LOCATION_RANGE=((-165,-65), (15,65))
     :return: 美国各州首府坐标
     """
-    print("""使用美国各州首府的坐标，需要设置参数
+    print("""使用美国各州首府的坐标，需要设置参数：
     N=50
     LOCATION_RANGE=((-165,-65), (15,65))""")
     return np.asarray([

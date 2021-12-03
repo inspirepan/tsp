@@ -7,7 +7,7 @@ from matplotlib import rcParams
 
 from arguments import ACCEPTANCE_PROB, DELTA_F_LOWER_THRESHOLD, EPOCHS, INITIALIZE_METHOD, \
     LOW_DELTA_F_STEPS_UPPER_THRESHOLD, PAUSE, RANDOM_TRIAL_COUNT, SEED, STABLE_STEPS, TEMPERATURE_DESCEND_RATE
-from tsa_model import TsaModel
+from tsp_model import TsaModel
 
 
 class SimulatedAnnealing:
